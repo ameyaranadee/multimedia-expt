@@ -1,0 +1,54 @@
+<!-- resize.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Resize Image</title>
+    <style>
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img id="original-image" src="https://storage.googleapis.com/{{bucket.name}}/{{filename}}">
+      <img id="resized-image">
+      <button id="resize-button">Resize Image</button>
+    </div>
+    <script>
+      const originalImage = document.querySelector('#original-image');
+      const resizedImage = document.querySelector('#resized-image');
+      const resizeButton = document.querySelector('#resize-button');
+
+      resizeButton.addEventListener('click', function () {
+        // Create a canvas element and resize the image
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const maxWidth = 500;
+        const maxHeight = 500;
+        let newWidth = originalImage.naturalWidth;
+        let newHeight = originalImage.naturalHeight;
+
+        if (newWidth > maxWidth) {
+          newWidth = maxWidth;
+          newHeight = (newWidth / originalImage.naturalWidth) * originalImage.naturalHeight;
+        }
+
+        if (newHeight > maxHeight) {
+          newHeight = maxHeight;
+          newWidth = (newHeight / originalImage.naturalHeight) * originalImage.naturalWidth;
+        }
+
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+
+        // Set the resized image source to the canvas data URL
+        resizedImage.src = canvas.toDataURL();
+      });
+    </script>
+  </body>
+</html>
