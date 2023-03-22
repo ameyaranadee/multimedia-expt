@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File uploaded successfully</title>
+</head>
+<body>
+    <h1>File uploaded successfully</h1>
+    <p>Filename: <%= fileName %></p>
+  <form action="/resize" method="POST">
+    <input type="hidden" name="fileName" value="<%= fileName %>">
+    <button type="submit">Resize image</button>
+  </form>
+
+</body>
+</html>
